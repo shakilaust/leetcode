@@ -3,19 +3,20 @@ public:
     double myPow(double x, int n) {
         bool divide = n < 0 ? true : false;
         if( n == 0 ) return 1.00;
-        if( n < 0 ) n *= -1;
+        long long int pw = n; // comparison not working
+        if( pw < 0 ) pw = pw * -1;;
         
-        for( int i = 2 ; i <= n / i ; i++ ) { 
+        for( int i = 2 ; i <= pw / i ; i++ ) { 
             
-            while( n % i == 0 ) { 
+            while( pw % i == 0 ) { 
                  
                  x = pow(x , i);
-                 n /= i;
+                 pw /= i;
                 
             }
         }
         
-        if( n > 1 ) x = pow( x , n );
+        if( pw > 1 ) x = pow( x , pw );
         if( divide ) return 1.00 / x ;
         return x;
     }
