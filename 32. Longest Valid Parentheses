@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        
+        
+        stack < int > st;
+        int ans = 0;
+        int sz = s.size();
+        vector < int > dp(sz + 1 , 0);
+        
+        for( int i = 1 ; i <= sz ; i++ ) { 
+            if( s[i-1] == ')' ) { 
+                if(!st.empty()) { 
+                    dp[i] = dp[st.top() - 1 ] + i - st.top() + 1;
+                   // printf(" value : %d %d\n", dp[i], i );
+                    ans = max( ans, dp[i] );
+                
+                    st.pop();
+                }
+
+            } else st.push(i);
+
+        }
+        
+        return ans;
+    }
+};
