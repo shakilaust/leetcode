@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int extraOpen = 0, extraClose = 0;
+    set < string > check;
+    void backtrac( int extraOpen, int extraClose, int open, int pos, string s, vector <string> &ans, string curString ) { 
+        
+        if(extraOpen < 0 || extraClose < 0 || open < 0 ) return ;
+        if( pos == s.size()) { 
+            if( extraOpen + extraClose == 0 && check.find(curString) == check.end()) {
+                check.insert(curString);
+                ans.push_back(curString);
+            }
+            return;
+        }
+        
+        if(s[pos] == '(') { 
+            backtrac(extraOpen - 1, extraClose , open, pos + 1, s , ans, curString );
+            backtrac(extraOpen, extraClose , open + 1, pos + 1, s , ans, curString + s[pos] );
+
+        } else if( s[pos] == ')' ) { 
+
+            backtrac(extraOpen, extraClose - 1 , open, pos + 1, s , ans, curString );
+            backtrac(extraOpen, extraClose , open - 1, pos + 1, s , ans, curString + s[pos] );
+        } else {
+            backtrac(extraOpen, extraClose , open, pos + 1, s , ans, curString + s[pos] );
+        }
+
+    }
+    vector<string> removeInvalidParentheses(string s) {
+        int sz = s.size();
+        for( int i = 0 ; i < sz ; i++) { 
+            
+            if( s[i] == '(') extraOpen++;
+            else if( s[i] == ')') {
+                
+                if(extraOpen > 0 ) extraOpen--;
+                else extraClose++;
+
+            }
+
+        }
+        
+        vector < string > ans;
+        string curString = "";
+        backtrac( extraOpen, extraClose, 0 , 0, s, ans, curString );
+        return ans;
+    }
+};
