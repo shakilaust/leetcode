@@ -1,0 +1,70 @@
+string reverseString(string currentString) { 
+
+        int sz = currentString.size();
+        for( int x = 0, y = sz - 1 ; x < y ; x++, y-- ) swap(currentString[x], currentString[y]);
+        return currentString;
+}
+
+string intToString(long long int number) { 
+        
+        string res = number == 0 ? "0" : "";
+        bool isNegative = number < 0 ? true : false;
+        if( number < 0 ) number *= -1;
+        while( number > 0 ) { 
+    
+            res += (( number % 10 ) + '0');
+            number /= 10;
+        }
+        if(isNegative) {
+            return "-" + reverseString(res);
+        }
+    
+        return reverseString(res);
+        
+
+    }
+
+class Solution {
+public:
+    
+    vector<string> summaryRanges(vector<int>& nums) {
+        vector < string > ans;
+        string add;
+        bool hasValue = false;
+        long long int prev = -1;
+        long long int lst = -1;
+        int sz = nums.size();
+        for( int i = 0 ; i < sz ; i++, hasValue = true ) { 
+            if( prev == -1 ) { 
+                prev = nums[i];
+                lst = nums[i];
+            } else { 
+                if( nums[i] - lst > 1 ) { 
+                    if( lst != prev ) {
+                        add = intToString(prev) + "->" + intToString(lst);
+                    } else { 
+                        add = intToString(prev);
+                    }
+                    lst = nums[i];
+                    prev = nums[i];
+                    ans.push_back(add);
+                    
+                } else {
+                    lst = nums[i];
+                }
+
+            }
+
+        }
+        
+        if(hasValue ) { 
+             if( lst != prev ) {
+                        add = intToString(prev) + "->" + intToString(lst);
+                    } else { 
+                        add = intToString(prev);
+                    }
+             ans.push_back(add);
+    }
+return ans;
+    }
+};
