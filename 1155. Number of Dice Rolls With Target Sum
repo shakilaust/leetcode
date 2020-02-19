@@ -1,0 +1,36 @@
+
+const int mod = 1e9 + 7;
+
+void modulo( int &a, int b ) { 
+
+        a += b;
+        if( a >= mod ) { 
+            a -= mod;
+        }
+}
+
+class Solution {
+public:
+    int numRollsToTarget(int d, int f, int target) {
+        const int mod = 1e9 + 7;
+        vector < int > ways( target + 1 );
+        ways[0] = 1;
+      
+
+        for(int dice = 1 ; dice <= d ; dice++ ) { 
+            
+            for( int i = 1 ; i <= target ; i++ ) { 
+                modulo(ways[i], ways[i-1]);
+            }
+            vector < int > newWays( target + 1 );
+            for( int sum = 1 ; sum <= target ; sum++ ) { 
+
+                newWays[sum] = ways[sum-1] - ( sum - f - 1 >= 0 ? ways[sum - f - 1 ] : 0 );
+                if( newWays[sum] < 0 ) newWays[sum] += mod;
+            }
+            ways = newWays;
+        }
+
+        return ways[target];
+    }
+};
