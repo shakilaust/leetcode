@@ -1,0 +1,25 @@
+class MyCalendar {
+   set < pair< int, int > > books;
+public:
+    MyCalendar() {
+        books.clear();
+    }
+    
+    bool book(int start, int end) {
+       
+        auto item = books.lower_bound({start, end});
+        
+        if( item != books.end() && item->first < end ) return false;
+        if( item != books.begin() && start <(--item)->second ) return false;
+    
+        
+       books.insert({start, end});
+       return true;
+    }
+};
+
+/**
+ * Your MyCalendar object will be instantiated and called as such:
+ * MyCalendar* obj = new MyCalendar();
+ * bool param_1 = obj->book(start,end);
+ */
