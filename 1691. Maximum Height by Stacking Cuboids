@@ -1,0 +1,37 @@
+
+bool cmp( vector < int > a, vector < int > b ) {
+    if( a[0] == b[0] ) {
+        if( a[1] == b[1] ) return a[2] > b[2];
+        return a[1] > b[1];
+    } else return a[0] > b[0];
+}
+
+class Solution {
+public:
+    int maxHeight(vector<vector<int>>& cuboids) {
+        int sz = cuboids.size();
+        for( int i = 0 ; i < sz ; i++ ) {
+            sort( cuboids[i].begin(), cuboids[i].end());
+        }
+        
+        sort( cuboids.begin(), cuboids.end(), cmp );
+        
+        vector < int > dp( sz, 0 );
+        
+        for( int i = 0 ; i < sz ; i++ ) {
+            dp[i]  = cuboids[i][2];
+        }
+        
+        int ans = 0;
+        for( int i = 0 ; i < sz ; i++ ) {
+            ans = max( ans, dp[i] );
+            for( int j = i + 1 ; j < sz ; j++ ) {
+                if( cuboids[i][1] >= cuboids[j][1] && cuboids[i][2] >= cuboids[j][2] ) {
+                    dp[j] = max( dp[j] , dp[i] + cuboids[j][2] );
+                    ans = max( ans, dp[j] );
+                }
+            }
+        }
+        return ans;
+    }
+};
