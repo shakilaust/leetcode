@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int maxSum(vector<int>& A, vector<int>& B) {
+        long long int mod = 1e9 + 7;
+        long long int a = 0, b = 0;
+        int asz = A.size() - 1;
+        int bsz = B.size() - 1;
+        long long int ans = 0;
+        while( asz >= 0 && bsz >= 0 ) {
+            if( A[asz] == B[bsz] ) {
+                ans += max( a, b );
+                ans += A[asz];
+                asz--;
+                bsz--;
+                a = 0;
+                b = 0;
+            } else if( A[asz] > B[bsz] ) a += A[asz--];
+            else b += B[bsz--];
+        }
+        
+        while( asz >= 0 ) a += A[asz--];
+        while( bsz >= 0 ) b += B[bsz--];
+        ans += max( a, b );
+        return ans % mod;
+    }
+};
